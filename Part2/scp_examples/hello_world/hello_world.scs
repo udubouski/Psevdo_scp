@@ -1,0 +1,18 @@
+scp_program -> hello_world (*
+	
+	-> rrel_params: ... ;;
+
+	-> rrel_operators: ... (*
+
+	-> rrel_init: ..proc_hello_world_1 (*
+			<- printNl;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: [Hello World!];;
+
+			=> nrel_goto: ..proc_hello_world_operator_return;;
+		*);;
+
+		-> ..proc_hello_world_operator_return (*
+			<- return;;
+		*);;
+	*);;
+*);;

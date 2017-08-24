@@ -1,0 +1,111 @@
+// Добавляет посещение вершины _vertex в маршрут _route.
+//
+scp_program -> proc_add_vertex_visit_to_route (*
+	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _route;;
+		-> rrel_2: rrel_in: _vertex;;
+		-> rrel_3: rrel_out: _vertex_visit;;
+	*);;
+
+	-> rrel_operators: ... (*
+		
+		// Находим ориентированный граф структуры маршрута
+		//
+		-> rrel_init: ..proc_add_vertex_visit_to_route_operator1 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_route_struct;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1:  rrel_fixed: rrel_scp_var: _route;;
+				-> rrel_2:  rrel_assign: rrel_scp_var: _route_struct;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_add_vertex_visit_to_route_operator2;;
+		*);;
+
+		-> ..proc_add_vertex_visit_to_route_operator2 (*
+			<-waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+		  	=> nrel_goto: ..proc_add_vertex_visit_to_route_operator3;;
+		*);;		
+		
+		// Находим отношение соответствия маршрута
+		//
+		-> ..proc_add_vertex_visit_to_route_operator3 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_route_visit;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _route;;
+				-> rrel_2: rrel_assign: rrel_scp_var: _route_visit;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_add_vertex_visit_to_route_operator4;; 
+		*);;
+
+		-> ..proc_add_vertex_visit_to_route_operator4 (*
+			<-waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+		  	=> nrel_goto: ..proc_add_vertex_visit_to_route_operator5;;
+		*);;
+
+		// Проверяем, может посещение для этой вершины уже существует
+		//
+
+		-> ..proc_add_vertex_visit_to_route_operator5 (*
+			<- searchElStr5;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _vertex_visit;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _vertex;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_var: _route_visit;;
+
+			=> nrel_then: ..proc_add_vertex_visit_to_route_operator_return;;
+			=> nrel_else: ..proc_add_vertex_visit_to_route_operator6;;
+		*);;
+
+
+		// Посещения не существует, значит создаем его
+		//
+		-> ..proc_add_vertex_visit_to_route_operator6 (*
+			<- genEl;;
+			-> rrel_1: rrel_assign: rrel_node: rrel_const: rrel_scp_var: _vertex_visit;;
+			
+			=> nrel_goto: ..proc_add_vertex_visit_to_route_operator7;;
+		*);;
+
+		//Добавляем посещение вершины _vertex_visit в структуру маршрута как вершину.
+		//
+		-> ..proc_add_vertex_visit_to_route_operator7 (*
+			<- genElStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _route_struct;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _vertex_visit;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: rrel_vertex;;
+
+			=> nrel_goto: ..proc_add_edge_visit_to_route_operator8;;
+		*);;	
+		
+		//Генерируем бинарную дугу между посещением вершины и самой вершиной и добавляем её в отношение соответствия маршрута.
+		//
+		-> ..proc_add_edge_visit_to_route_operator8 (*
+			<- genElStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _vertex_visit;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _vertex;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_var: _route_visit;;
+		
+			=> nrel_goto: ..proc_add_vertex_visit_to_route_operator_return;;
+		*);;
+
+
+		-> ..proc_add_vertex_visit_to_route_operator_return (*
+			<- return;;
+		*);;	
+	*);;
+*);;

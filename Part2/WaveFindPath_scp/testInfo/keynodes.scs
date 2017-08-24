@@ -1,0 +1,40 @@
+undirected_graph
+=> nrel_main_idtf: [неориентированный граф] (* <- lang_ru;; *);
+=> nrel_main_idtf: [undirected graph] (* 	<- lang_en;; *);;
+
+rrel_vertex 
+=> nrel_main_idtf: [вершина'] (* <- lang_ru;; *);
+=> nrel_main_idtf: [vertex'] (* <- lang_en;; *);;
+
+rrel_list_next
+=> nrel_main_idtf: [следующий элемент списка'] (* <- lang_ru;; *);
+=> nrel_main_idtf: [next list element'] (* <- lang_en;;	*);;
+
+rrel_list_value
+=> nrel_main_idtf: [значение элемент списка'] (* <- lang_ru;; *);
+=> nrel_main_idtf: [list element value'] (* <- lang_en;; *);;
+
+rrel_list_prev
+=> nrel_main_idtf: [предыдующий элемент списка'] (* <- lang_ru;; *);
+=> nrel_main_idtf: [previous list element'] (* <- lang_en;; *);;
+
+rrel_edge 
+=> nrel_main_idtf: [ребро'] (*  <- lang_ru;; *);
+=> nrel_main_idtf: [edge'] (* <- lang_en;;	*);;
+
+nrel_simple_trail 
+=> nrel_main_idtf: [простая цепь*] (*  <- lang_ru;; *);
+=> nrel_main_idtf: [simple trail*] (* <- lang_en;;	*);;
+
+rrel_1 
+=> nrel_main_idtf: [1'] (*  <- lang_ru;; *);
+=> nrel_main_idtf: [1'] (* <- lang_en;;	*);;
+
+rrel_2 
+=> nrel_main_idtf: [2'] (*  <- lang_ru;; *);
+=> nrel_main_idtf: [2'] (* <- lang_en;;	*);;
+
+rrel_3 
+=> nrel_main_idtf: [3'] (*  <- lang_ru;; *);
+=> nrel_main_idtf: [3'] (* <- lang_en;;	*);;
+

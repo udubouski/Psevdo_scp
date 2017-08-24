@@ -1,0 +1,158 @@
+scp_program -> proc_print_route (*	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _route;;
+	*);;
+
+	-> rrel_operators: ... (*
+//	Находим ориентированный граф структуры маршрута.
+		-> rrel_init: ..proc_print_route_operator1 (*
+			<-call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_route_struct;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ..proc_get_route_struct_params (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _route;;
+				-> rrel_2: rrel_assign: rrel_scp_var: _route_struct;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_print_route_operator2;;
+		*);;
+
+		-> ..proc_print_route_operator2 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_print_route_operator3;;
+		*);;
+//	Находим отношение соответствия маршрута.
+		-> ..proc_print_route_operator3 (*
+			<-call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_route_visit;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _route;;
+				-> rrel_2: rrel_assign: rrel_scp_var: _route_visit;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_print_route_operator4;;
+		*);;
+
+		-> ..proc_print_route_operator4 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_print_route_operator5;;
+		*);;
+//	Находим начальную вершину в ориентированном графе структуры маршрута.
+		-> ..proc_print_route_operator5 (*
+			<-call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_route_struct_begin;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _route_struct;;
+				-> rrel_2: rrel_assign: rrel_scp_var: _cur_visit;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_print_route_operator6;;
+		*);;
+
+		-> ..proc_print_route_operator6 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_print_route_operator7;;
+		*);;
+//	Находим вершину, соответствующую начальному посещению.
+		-> ..proc_print_route_operator7 (*
+			 <- searchElStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _cur_visit;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _visited_vertex;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_var: _route_visit;;
+		
+			=> nrel_then: ..proc_print_route_operator8;;		
+		 	=> nrel_else: ..proc_print_route_operator_return;;
+		*);;
+//	Выводим текущую посещенную вершину.
+		-> ..proc_print_route_operator8 (*
+			 <- searchElStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _visited_vertex;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _print_value;;
+			-> rrel_4: rrel_assign: rrel_pos: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: nrel_system_identifier;;
+		
+			=> nrel_then: ..proc_print_route_operator9;;		
+		 	=> nrel_else: ..proc_print_route_operator_return;;
+		*);;
+
+		->..proc_print_route_operator9 (*
+			<-print;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _print_value;;
+
+			=>nrel_goto: ..proc_print_route_operator10;;
+		*);;
+//	Находим следующее посещение.
+		-> ..proc_print_route_operator10 (*
+			 <- searchElStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _cur_visit;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _next_visit;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_var: _route_struct;;
+		
+			=> nrel_then: ..proc_print_route_operator11;;		
+		 	=> nrel_else: ..proc_print_route_operator_return;;
+		*);;
+//	Присваиваем следующее посещение текущему.
+		->..proc_print_route_operator11 (*
+			<-varAssign;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _cur_visit;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _next_visit;;
+
+			=>nrel_goto: ..proc_print_route_operator12;;
+		*);;
+//	Находим вершину, соответствующую текущему посещению.
+		-> ..proc_print_route_operator12 (*
+			 <- searchElStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _cur_visit;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _visited_vertex;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_var: _route_visit;;
+		
+			=> nrel_then: ..proc_print_route_operator13;;		
+		 	=> nrel_else: ..proc_print_route_operator_return;;
+		*);;
+		
+		->..proc_print_route_operator13 (*
+			<-print;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: [ -> ];;
+
+			=>nrel_goto: ..proc_print_route_operator14;;
+		*);;
+//	Выводим текущую посещенную вершину.
+		-> ..proc_print_route_operator14 (*
+			 <- searchElStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _visited_vertex;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _print_value;;
+			-> rrel_4: rrel_assign: rrel_pos: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: nrel_system_identifier;;
+		
+			=> nrel_then: ..proc_print_route_operator15;;		
+		 	=> nrel_else: ..proc_print_route_operator_return;;
+		*);;
+
+		->..proc_print_route_operator15 (*
+			<-print;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _print_value;;
+
+			=>nrel_goto: ..proc_print_route_operator10;;
+		*);;
+
+		-> ..proc_print_route_operator_return (*
+			<- return;;
+		*);;
+	*);;
+*);;

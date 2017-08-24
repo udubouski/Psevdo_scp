@@ -1,0 +1,29 @@
+graph -> G3;;
+G3 -> rrel_arcs: ..arcs;;
+G3 -> rrel_nodes: ..nodes;;
+
+..nodes -> V1;;
+..nodes -> V2;;
+..nodes -> V3;;
+..nodes -> V4;;
+..nodes -> V5;;
+..nodes -> V6;;
+
+
+..arcs -> (V1 <=> V2);;
+..arcs -> (V2 <=> V1);;
+..arcs -> (V1 <=> V4);;
+..arcs -> (V4 <=> V1);;
+..arcs -> (V2 <=> V3);;
+..arcs -> (V3 <=> V2);;
+..arcs -> (V3 <=> V4);;
+..arcs -> (V4 <=> V3);;
+..arcs -> (V3 <=> V5);;
+..arcs -> (V5 <=> V3);;
+..arcs -> (V3 <=> V6);;
+..arcs -> (V6 <=> V3);;
+..arcs -> (V4 <=> V5);;
+..arcs -> (V5 <=> V4);;
+..arcs -> (V5 <=> V6);;
+..arcs -> (V6 <=> V5);;
+

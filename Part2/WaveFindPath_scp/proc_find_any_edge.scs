@@ -1,0 +1,103 @@
+// Ищет для _vertex любую смежную вершину из волны _prev_wave в графе _graph.
+// Возвращает _edge между _vertex и найденной вершиной
+//
+scp_program -> proc_find_any_edge (*
+	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _graph;;
+		-> rrel_2: rrel_in: _vertex;;
+		-> rrel_3: rrel_in: _prev_wave;;
+		-> rrel_4: rrel_out: _edge;;
+	*);;
+
+	-> rrel_operators: ... (*
+
+		// Формируем множество ребер графа для итерации
+		//			
+		-> rrel_init: ..proc_find_any_edge_operator1 (*
+			<- searchSetStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _graph;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var:  _arc2;;
+			-> rrel_3: rrel_assign: rrel_edge: rrel_scp_var: _temp_edge;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var:  _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: rrel_edge;;			
+			-> rrel_set_3: rrel_assign: rrel_scp_var: _edges_set;;
+
+			=> nrel_goto: ..proc_find_any_edge_operator2;;
+		*);;
+
+		//  Начало цикла по ребрам графа
+		//
+		-> ..proc_find_any_edge_operator2 (*
+			<-searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _edges_set;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_edge: rrel_scp_var: _edge;;
+			
+			=> nrel_then: ..proc_find_any_edge_operator3;;
+			=> nrel_else: ..proc_find_any_edge_operator7;;					
+		*);;
+
+		-> ..proc_find_any_edge_operator3 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_erase: rrel_scp_var: _arc2;;
+			
+			=> nrel_goto: ..proc_find_any_edge_operator4;;		
+		*);;
+		
+		// Проверка, инцидентно ли ребро edge вершине vertex
+		//
+		-> ..proc_find_any_edge_operator4 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_other_vertex_incidence_edge;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _edge;;
+				-> rrel_2: rrel_fixed: rrel_scp_var: _vertex;;
+				-> rrel_3: rrel_assign: rrel_scp_var: _other_vertex;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_find_any_edge_operator5;;
+		*);;
+		
+		-> ..proc_find_any_edge_operator5 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_find_any_edge_operator6;;
+		*);;
+
+		-> ..proc_find_any_edge_operator6 (*
+			<- ifVarAssign;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _other_vertex;;
+			
+			=> nrel_then: ..proc_find_any_edge_operator7;;
+			=> nrel_else: ..proc_find_any_edge_operator2;;	
+		*);;
+
+
+		// Если найденная вершина other_vertex входит в предыдущую волну, то
+		// наш поиск успешен и может быть завершен, иначе продолжаем поиск
+		//
+		-> ..proc_find_any_edge_operator7 (*
+			<- searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _prev_wave;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var:  _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _other_vertex;;
+			
+			=> nrel_then: ..proc_find_any_edge_operator8;;
+			=> nrel_else: ..proc_find_any_edge_operator2;;	
+	*);;
+
+		-> ..proc_find_any_edge_operator8 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_erase: rrel_scp_var: _edges_set;;
+			
+			=> nrel_goto: ..proc_find_any_edge_operator_return;;		
+		*);;
+
+		-> ..proc_find_any_edge_operator_return (*
+			<- return;;
+		*);;	
+	*);;
+*);;

@@ -1,0 +1,100 @@
+// Удаляет все волны из списка и сам список волн.
+//
+scp_program -> proc_erase_wave_list (*
+
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _waves_list_head;;
+	*);;
+
+	-> rrel_operators: ... (*
+
+		-> rrel_init: ..proc_erase_wave_list_operator1 (*
+			<- varAssign;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _waves_list_next;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _waves_list_head;;
+
+			=> nrel_goto: ..proc_erase_wave_list_operator2;;
+		*);; 
+
+		//  Начало цикла по элементам списка
+		//
+		-> ..proc_erase_wave_list_operator2 (*
+			<- varAssign;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _waves_list_curr;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _waves_list_next;;
+
+			=> nrel_goto: ..proc_erase_wave_list_operator3;;
+		*);;
+
+		// Удаляем волну
+		//
+		-> ..proc_erase_wave_list_operator3 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_list_get_value;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _waves_list_curr;;
+				-> rrel_2: rrel_assign: rrel_scp_var: _current_wave;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_erase_wave_list_operator4;;
+		*);;
+
+		-> ..proc_erase_wave_list_operator4 (*
+			<-waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+		  	=> nrel_goto: ..proc_erase_wave_list_operator5;;
+		*);;
+
+		-> ..proc_erase_wave_list_operator5 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_erase: rrel_scp_var: _current_wave;;
+
+			=> nrel_goto: ..proc_erase_wave_list_operator6;;
+		*);;
+
+		// Получаем следующий элемент списка волн.
+		//
+		-> ..proc_erase_wave_list_operator6 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_list_get_next;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _waves_list_curr;;
+				-> rrel_2: rrel_fixed: rrel_scp_var: _waves_list_next;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_erase_wave_list_operator7;;			
+		*);;
+
+		-> ..proc_erase_wave_list_operator7 (*
+			<-waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+		  	=> nrel_goto: ..proc_erase_wave_list_operator8;;
+		*);;
+	
+		// Удаляем текущий элемент списка.
+		//	
+		-> ..proc_erase_wave_list_operator8 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_erase: rrel_scp_var: _waves_list_curr;;
+
+			=> nrel_goto: ..proc_erase_wave_list_operator9;; 
+		*);;	
+
+		//Если в списке остались элементы, то продолжаем цикл, иначе выхолим из процедуры.
+		-> ..proc_erase_wave_list_operator9 (*
+			<- ifVarAssign;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _waves_list_next;;
+			
+			=> nrel_then: ..proc_erase_wave_list_operator2;;
+			=> nrel_else: ..proc_erase_wave_list_operator_return;;
+		*);;
+
+		-> ..proc_erase_wave_list_operator_return (*
+			<- return;;
+		*);;	
+	*);;
+*);;

@@ -1,0 +1,62 @@
+// Возвращает в _vertex2 вершину ,которая инцидентена ребру _edge и не является вершиной  _vertex.
+// Учитывает кратное вхождение вершин, т.е. петлю.
+//
+scp_program -> proc_get_other_vertex_incidence_edge (*
+	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _edge;;
+		-> rrel_2: rrel_in: _vertex1;;
+		-> rrel_3: rrel_out: _vertex2;;
+	*);;
+
+	-> rrel_operators: ... (*
+
+		-> rrel_init: ..proc_get_other_vertex_incidence_edge_operator1 (*
+			<- searchElStr3;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _temp_vertex1;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _edge;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _temp_vertex2;;	
+
+			=> nrel_then: ..proc_get_other_vertex_incidence_edge_operator2;;
+			=> nrel_else: ..proc_get_other_vertex_incidence_edge_operator4;;
+		*);;
+
+		-> ..proc_get_other_vertex_incidence_edge_operator2 (*
+			<- ifCoin;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _vertex1;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _temp_vertex1;;
+
+			=> nrel_then: ..proc_get_other_vertex_incidence_edge_operator3;;
+			=> nrel_else: ..proc_get_other_vertex_incidence_edge_operator4;;
+		*);;
+
+		-> ..proc_get_other_vertex_incidence_edge_operator3 (*
+			<- varAssign;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _vertex2;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _temp_vertex2;;
+
+			=> nrel_goto: ..proc_get_other_vertex_incidence_edge_operator_return;;
+		*);;
+
+		-> ..proc_get_other_vertex_incidence_edge_operator4 (*
+			<- ifCoin;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _vertex1;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _temp_vertex2;;
+
+			=> nrel_then: ..proc_get_other_vertex_incidence_edge_operator5;;
+			=> nrel_else: ..proc_get_other_vertex_incidence_edge_operator_return;;
+		*);;
+
+		-> ..proc_get_other_vertex_incidence_edge_operator5 (*
+			<- varAssign;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _vertex2;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _temp_vertex1;;
+
+			=> nrel_goto: ..proc_get_other_vertex_incidence_edge_operator_return;;
+		*);;
+
+		-> ..proc_get_other_vertex_incidence_edge_operator_return (*
+			<- return;;
+		*);;	
+	*);;
+*);;

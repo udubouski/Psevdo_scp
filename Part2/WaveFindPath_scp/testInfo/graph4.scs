@@ -1,0 +1,6 @@
+undirected_graph->graph4(*
+	->rrel_vertex: A;;
+	->rrel_vertex: B;;
+	->rrel_edge: ( A <=> A );;
+*);;
+

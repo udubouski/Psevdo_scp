@@ -1,0 +1,30 @@
+undirected_graph->graph3(*
+	->rrel_vertex: V1;;
+	->rrel_vertex: V2;;
+	->rrel_vertex: V3;;
+	->rrel_vertex: V4;;
+	->rrel_vertex: V5;;
+	->rrel_vertex: V6;;
+	->rrel_vertex: V7;;
+	->rrel_vertex: V8;;
+	->rrel_vertex: V9;;
+	->rrel_vertex: V10;;
+	->rrel_vertex: V11;;
+	->rrel_edge: ( V1 <=> V2 );;
+	->rrel_edge: ( V2 <=> V3 );;
+	->rrel_edge: ( V2 <=> V4 );;
+	->rrel_edge: ( V3 <=> V4 );;
+	->rrel_edge: ( V3 <=> V5 );;
+	->rrel_edge: ( V4 <=> V5 );;
+	->rrel_edge: ( V4 <=> V6 );;
+	->rrel_edge: ( V5 <=> V7 );;
+	->rrel_edge: ( V6 <=> V7 );;
+	->rrel_edge: ( V6 <=> V8 );;
+	->rrel_edge: ( V6 <=> V9 );;
+	->rrel_edge: ( V8 <=> V9 );;
+	->rrel_edge: ( V8 <=> V10 );;
+	->rrel_edge: ( V9 <=> V10 );;
+	->rrel_edge: ( V9 <=> V11 );;
+	->rrel_edge: ( V10 <=> V11 );;
+*);;
+

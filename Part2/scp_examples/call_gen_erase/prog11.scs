@@ -1,0 +1,141 @@
+scp_program -> prog11 (*	
+	-> rrel_params: ...;;
+	
+	-> rrel_operators: ... (*
+
+		-> rrel_init: ..prog11_operator1 (*
+		  <- genEl;;
+		  -> rrel_1: rrel_assign: rrel_node: rrel_const: rrel_scp_var: _set;;
+  		
+		  => nrel_goto: ..prog11_operator2;;
+		*);;
+
+		-> ..prog11_operator2 (*
+		  <- call;;
+		  -> rrel_1: rrel_fixed: rrel_scp_const: prog22;;
+		  -> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _set;;
+				-> rrel_2: rrel_fixed: rrel_scp_const: [100];;
+  		  *);;
+		  -> rrel_3: rrel_assign: rrel_scp_var: _descr1;;
+  		
+		  => nrel_goto: ..prog11_operator3;;
+		*);;
+
+		-> ..prog11_operator3 (*
+		  <- waitReturn;;
+		  -> rrel_1: rrel_fixed: rrel_scp_var: _descr1;;
+  		
+		  => nrel_goto: ..prog11_operator4;;
+		*);;
+
+		-> ..prog11_operator4 (*
+		  <- call;;
+		  -> rrel_1: rrel_fixed: rrel_scp_const: prog33;;
+		  -> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _set;;
+  		  *);;
+		  -> rrel_3: rrel_assign: rrel_scp_var: _descr2;;  		
+
+		  => nrel_goto: ..prog11_operator5;;
+		*);;
+
+		-> ..prog11_operator5 (*
+		  <- waitReturn;;
+		  -> rrel_1: rrel_fixed: rrel_scp_var: _descr2;;
+  		
+		  => nrel_goto: ..prog11_operator_return;;
+		*);;
+			
+		-> ..prog11_operator_return (*
+		  <- return;;
+		*);;
+	*);;
+*);;
+
+
+scp_program -> prog22 (*	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _set;;
+		-> rrel_2: rrel_in: _count;;
+	*);;
+	
+	-> rrel_operators: ... (*
+
+		-> rrel_init: ..prog22_operator1 (*
+		  <- genEl;;
+		  -> rrel_1: rrel_assign: rrel_node: rrel_link: rrel_const: rrel_scp_var: _counter;;
+  		
+		  => nrel_goto: ..prog22_operator2;;
+		*);;
+
+		-> ..prog22_operator2 (*
+		  <- contAssign;;
+		  -> rrel_1: rrel_fixed: rrel_scp_var: _counter;;
+		  -> rrel_2: rrel_fixed: rrel_scp_const: [0];;
+
+		  => nrel_goto: ..prog22_operator3;;
+		*);;
+
+		-> ..prog22_operator3 (*
+		  <- ifGr;;
+		  -> rrel_1: rrel_fixed: rrel_scp_var: _counter;;
+		  -> rrel_2: rrel_fixed: rrel_scp_var: _count;;
+
+		  => nrel_then: ..prog22_operator_return;;
+		  => nrel_else: ..prog22_operator4;;
+		*);;
+		
+		-> ..prog22_operator4 (*
+		  <- contAdd;;
+		  -> rrel_1: rrel_fixed: rrel_scp_var: _counter;;
+		  -> rrel_2: rrel_fixed: rrel_scp_var: _counter;;
+		  -> rrel_3: rrel_fixed: rrel_scp_const: [1];;
+
+		  => nrel_goto: ..prog22_operator5;;
+		*);;
+
+		-> ..prog22_operator5 (*
+		  <- genElStr3;;
+		  -> rrel_1: rrel_fixed: rrel_scp_var: _set;;
+		  -> rrel_2: rrel_assign: rrel_scp_var: _arc;;
+		  -> rrel_3: rrel_assign: rrel_node: rrel_const: rrel_scp_var: _elem;;
+
+		  => nrel_goto: ..prog22_operator3;;
+		*);;
+			
+		-> ..prog22_operator_return (*
+		  <- return;;
+		*);;
+	*);;
+*);;
+
+scp_program -> prog33 (*	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _set;;
+	*);;
+	
+	-> rrel_operators: ... (*
+
+		-> rrel_init: ..prog33_operator1 (*
+		  <- searchElStr3;;
+		  -> rrel_1: rrel_fixed: rrel_scp_var: _set;;
+		  -> rrel_2: rrel_assign: rrel_scp_var: _arc;;
+		  -> rrel_3: rrel_assign: rrel_scp_var: _elem;;
+  		
+		  => nrel_then: ..prog33_operator2;;
+		  => nrel_else: ..prog33_operator_return;;
+		*);;
+
+		-> ..prog33_operator2 (*
+		  <- eraseEl;;
+		  -> rrel_1: rrel_fixed: rrel_erase: rrel_scp_var: _elem;;
+  		
+		  => nrel_goto: ..prog33_operator1;;
+		*);;
+			
+		-> ..prog33_operator_return (*
+		  <- return;;
+		*);;
+	*);;
+*);;

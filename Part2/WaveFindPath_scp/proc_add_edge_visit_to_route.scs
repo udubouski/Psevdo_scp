@@ -1,0 +1,133 @@
+//Добавляет посещение ребра _edge и инцидентные ему вершины в маршрут _route.
+
+scp_program -> proc_add_edge_visit_to_route (*
+	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _route;;
+		-> rrel_2: rrel_in: _edge;;
+		-> rrel_3: rrel_in: _from_vertex;;
+		-> rrel_4: rrel_in: _to_vertex;;
+		-> rrel_5: rrel_out: _edge_visit;;
+	*);;
+
+	-> rrel_operators: ... (*
+		
+		// Находим ориентированный граф структуры маршрута
+		//
+		-> rrel_init: ..proc_add_edge_visit_to_route_operator1 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_route_struct;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _route;;
+				-> rrel_2: rrel_assign: rrel_scp_var: _route_struct;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_add_edge_visit_to_route_operator2;;
+		*);;
+
+		-> ..proc_add_edge_visit_to_route_operator2 (*
+			<-waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+		  	=> nrel_goto: ..proc_add_edge_visit_to_route_operator3;;
+		*);;
+	
+		// Находим отношение соответствия маршрута
+		//
+		-> ..proc_add_edge_visit_to_route_operator3 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_route_visit;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _route;;
+				-> rrel_2: rrel_assign: rrel_scp_var: _route_visit;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_add_edge_visit_to_route_operator4;; 
+		*);;
+
+		-> ..proc_add_edge_visit_to_route_operator4 (*
+			<-waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+		  	=> nrel_goto: ..proc_add_edge_visit_to_route_operator5;;
+		*);;
+		// Добавим посещение вершины _from_vertex в маршрут
+		//
+		-> ..proc_add_edge_visit_to_route_operator5 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_add_vertex_visit_to_route;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _route;;
+				-> rrel_2: rrel_fixed: rrel_scp_var: _from_vertex;;
+				-> rrel_3: rrel_assign: rrel_scp_var: _from_vertex_visit;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_add_edge_visit_to_route_operator6;;
+		*);;
+
+		-> ..proc_add_edge_visit_to_route_operator6 (*
+			<-waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+		  	=> nrel_goto: ..proc_add_edge_visit_to_route_operator7;;
+		*);;
+
+		//Получаем посещение вершины _to_vertex.
+		//
+		-> ..proc_add_edge_visit_to_route_operator7 (*
+			<- searchElStr5;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _to_vertex_visit;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _to_vertex;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_var: _route_visit;;
+			
+			=> nrel_goto: ..proc_add_edge_visit_to_route_operator8;;
+		*);;
+		
+		// Создаём посещение дуги...
+		//
+		-> ..proc_add_edge_visit_to_route_operator8 (*
+			<- genElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _from_vertex_visit;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _edge_visit;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _to_vertex_visit;;
+			
+			=> nrel_goto: ..proc_add_edge_visit_to_route_operator9;;
+		*);;
+
+		// Добавим её в структуру маршрута.
+		//
+		-> ..proc_add_edge_visit_to_route_operator9 (*
+			<- genElStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _route_struct;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _edge_visit;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: rrel_arc;;
+
+			=> nrel_goto: ..proc_add_edge_visit_to_route_operator10;;
+		*);;
+		
+	
+		// Укажем, что _edge_visit является посещением edge
+		//
+		-> ..proc_add_edge_visit_to_route_operator10 (*
+				<- genElStr5;;
+				-> rrel_1: rrel_fixed: rrel_scp_var: _edge_visit;;
+				-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+				-> rrel_3: rrel_fixed: rrel_scp_var: _edge;;
+				-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+				-> rrel_5: rrel_fixed: rrel_scp_var: _route_visit;;
+				
+				=> nrel_goto: ..proc_add_edge_visit_to_route_operator_return;; 
+		*);;
+
+		-> ..proc_add_edge_visit_to_route_operator_return (*
+			<- return;;
+		*);;	
+	*);;
+*);;

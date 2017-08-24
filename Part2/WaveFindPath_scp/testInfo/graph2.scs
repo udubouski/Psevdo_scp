@@ -1,0 +1,17 @@
+undirected_graph->graph2(*
+	->rrel_vertex: A;;
+	->rrel_vertex: B;;
+	->rrel_vertex: C;;
+	->rrel_vertex: D;;
+	->rrel_vertex: E;;
+	->rrel_vertex: F;;
+	->rrel_vertex: M;;
+	->rrel_edge: ( A <=> C );;
+	->rrel_edge: ( A <=> D );;
+	->rrel_edge: ( D <=> C );;
+	->rrel_edge: ( F <=> C );;
+	->rrel_edge: ( F <=> E );;
+	->rrel_edge: ( D <=> E );;
+	->rrel_edge: ( D <=> B );;
+*);;
+

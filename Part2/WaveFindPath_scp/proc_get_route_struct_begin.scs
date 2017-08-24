@@ -1,0 +1,79 @@
+// Находит начало структуры маршрута _route_struct.
+// Наденную вершину возвращает в _route_begin.
+scp_program -> proc_get_route_struct_begin (*
+	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _route_struct;;
+		-> rrel_2: rrel_out: _route_begin;;
+	*);;
+
+	-> rrel_operators: ... (*
+//	Начальной считается вершина, в которую нет входящих бинарных дуг.
+//	Переберем все вершины и проверим их на это свойство.
+
+//	Копируем множество вершин структуры маршрута для итерации
+		-> rrel_init: ..proc_get_route_struct_begin_operator1 (*
+			 <- searchSetStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _route_struct;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _el3;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: rrel_vertex;;
+		
+			->rrel_set_3: rrel_assign: rrel_scp_var: _vertexes_set;;
+			=> nrel_then: ..proc_get_route_struct_begin_operator2;;		
+		 	=> nrel_else: ..proc_get_route_struct_begin_operator_return;;	
+		*);;
+//	Итерация по всем вершинам-посещениям.		
+		-> ..proc_get_route_struct_begin_operator2 (*
+			<- searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _vertexes_set;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _vertex;;
+
+			=> nrel_then: ..proc_get_route_struct_begin_operator3;;
+			=> nrel_else: ..proc_get_route_struct_begin_operator6;; 
+		*);;
+
+		-> ..proc_get_route_struct_begin_operator3 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _arc2;;
+
+			=> nrel_goto: ..proc_get_route_struct_begin_operator4;;
+		*);;
+//	Ориентированный граф структуры маршрута можно рассматривать как
+//	бинарное ориентированное отношение, которое связывает вершины.		
+		-> ..proc_get_route_struct_begin_operator4 (*
+			 <- searchElStr5;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _next_vertex;;
+			-> rrel_2: rrel_assign: rrel_common: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _vertex;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: rrel_arc;;
+//	Если в _vertex входит бинарная дуга, то эта вершина не начальная,
+//	следовательно переходим к следующей вершине. 	
+			=> nrel_then: ..proc_get_route_struct_begin_operator2;;	
+//	Иначе начальная вершина маршрута найдена.	
+		 	=> nrel_else: ..proc_get_route_struct_begin_operator5;;
+		*);;
+
+		->..proc_get_route_struct_begin_operator5 (*
+			<-varAssign;;
+			-> rrel_1: rrel_assign: rrel_scp_var: _route_begin;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _vertex;;
+
+			=>nrel_goto: ..proc_get_route_struct_begin_operator6;;
+		*);;
+//	Очистка памяти.
+		-> ..proc_get_route_struct_begin_operator6 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _vertexes_set;;
+
+			=> nrel_goto: ..proc_get_route_struct_begin_operator_return;;
+		*);;
+
+		-> ..proc_get_route_struct_begin_operator_return (*
+			<- return;;
+		*);;
+	*);;
+*);;
